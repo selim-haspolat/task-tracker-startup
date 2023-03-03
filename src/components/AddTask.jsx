@@ -1,16 +1,31 @@
+import { useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
 
+const AddTask = ({ showModal, setShowModal,addTask}) => {
 
-const AddTask = () => {
+  const [formData, setFormData] = useState({ task: "", date: ""});
+
+  const handelSubmit = (e) => {
+    e.preventDefault()
+    // setTasks([...tasks,{...formData,id:uuidv4() }])
+    addTask({...formData,id:uuidv4(),complated:false})
+    setFormData({ task: "", date: "" })
+    setShowModal(false)
+  };
+
   return (
     <div
       id="authentication-modal"
       tabIndex={-1}
       aria-hidden="true"
-      className={`absolute top-0 left-0 flex w-screen h-screen justify-center items-center z-50 hidden`}
+      className={`absolute top-0 left-0 flex w-screen h-screen justify-center items-center z-50 ${
+        !showModal && "hidden"
+      }`}
     >
       <div className="relative w-full h-full max-w-md md:h-auto">
         <div className="relative bg-white rounded-lg shadow border-2 border-slate-400">
           <button
+            onClick={() => setShowModal(false)}
             type="button"
             className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
             data-modal-hide="authentication-modal"
@@ -31,15 +46,30 @@ const AddTask = () => {
           </button>
           <div className="px-6 py-6 lg:px-8">
             <h3 className="mb-4 text-xl font-medium text-gray-900">Add Task</h3>
-            <form className="space-y-6">
+            <form onSubmit={handelSubmit} className="space-y-6">
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900">
                   Task
                 </label>
                 <input
+                  onChange={(e) =>
+                    setFormData({ ...formData, task: e.target.value })
+                  }
+                  value={formData.task}
                   id="my-input"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   placeholder="Something you should do"
+                  required
+                />
+                <input
+                  onChange={(e) =>
+                    setFormData({ ...formData, date: e.target.value })
+                  }
+                  value={formData.date}
+                  id="date"
+                  type="date"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  placeholder="date"
                   required
                 />
               </div>

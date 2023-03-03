@@ -1,6 +1,7 @@
 import TaskCard from './TaskCard'
 
-const Main = () => {
+const Main = ({setShowModal,tasks,handleDelete,editTask}) => {
+
   return (
     <div className="max-w-lg mx-auto bg-white p-8 rounded-xl shadow shadow-slate-300">
       <div className="flex flex-row justify-between items-center">
@@ -9,6 +10,7 @@ const Main = () => {
         </div>
         <div className="inline-flex space-x-2 items-center">
           <button
+          onClick={() => setShowModal(true)}
             className="p-2 border border-slate-200 rounded-md inline-flex space-x-1 items-center hover:bg-slate-200"
           >
             <svg
@@ -30,17 +32,14 @@ const Main = () => {
         </div>
       </div>
       <p className="text-slate-500">
-      Hello, here are your tasks
-        {/* {tasks.length
+        {tasks.length
           ? "Hello, here are your tasks"
-          : "No task is present, so let's add one."} */}
+          : "No task is present, so let's add one."}
       </p>
       <div className="flex flex-col-reverse my-5">
-        <TaskCard/>
-        <TaskCard/>
-        <TaskCard/>
-        <TaskCard/>
-            {/* itere edilicek yer */}
+          {
+            tasks.map((t) => <TaskCard key={t.id} {...t} handleDelete={handleDelete} editTask={editTask}/>)
+          }  
       </div>
     </div>
   );

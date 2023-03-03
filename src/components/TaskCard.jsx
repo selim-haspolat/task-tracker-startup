@@ -1,10 +1,14 @@
+import React, { useState } from "react";
 
-import React from "react";
-
-const TaskCard = () => {
-
+const TaskCard = ({ id, complated, task, date, handleDelete, editTask }) => {
   return (
-    <div className={`flex justify-between items-center border-b border-slate-200 py-3 px-2 border-l-4  border-l-transparent bg-gradient-to-r from-transparent to-transparent hover:from-slate-100 transition ease-linear duration-150 cursor-pointer`}>
+    <div
+      className={`flex justify-between items-center border-b border-slate-200 py-3 px-2 border-l-4  border-l-transparent bg-gradient-to-r from-transparent to-transparent hover:from-slate-100 transition ease-linear duration-150 cursor-pointer ${
+        complated &&
+        "!border-l-indigo-300  !from-indigo-100 hover:!from-indigo-200 "
+      }`}
+      onClick={() => editTask(id)}
+    >
       <div className="inline-flex items-center space-x-2">
         <div>
           <svg
@@ -22,9 +26,11 @@ const TaskCard = () => {
             />
           </svg>
         </div>
-        <div >TASK</div>
+        <div>
+          {task} | {date}
+        </div>
       </div>
-      <button>
+      <button onClick={() => handleDelete(id)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
